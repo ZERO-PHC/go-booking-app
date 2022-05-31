@@ -33,24 +33,35 @@ func main() {
 		fmt.Println("Enter number of tickets:")
 		fmt.Scan(&userTickets)
 
-		remainingTickets = remainingTickets - userTickets
-		bookings = append(bookings, firstName+" "+lastName)
+		if userTickets <= remainingTickets {
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email", firstName, lastName, userTickets)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email", firstName, lastName, userTickets)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			firstNames := []string{}
 
-		firstNames := []string{}
+			// range provides the index and value for each element
+			// range can iterate over elements with different data structures (not only arrs and slices)
 
-		// range provides the index and value for each element
-		// range can iterate over elements with different data structures (not only arrs and slices)
+			// _ Blank identifier
+			for _, booking := range bookings {
+				// splits the string with white space as separator
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+			fmt.Printf("The first names of bookings are: %v\n", firstNames)
 
-		// _ Blank identifier
-		for _, booking := range bookings {
-			// splits the string with white space as separator
-			var names = strings.Fields(booking)
-			firstNames = append(firstNames, names[0])
+			noTicketsRemaining := remainingTickets == 0
+			if noTicketsRemaining {
+				fmt.Println("Our Conference is booked out. Come back nex year")
+				break
+			}
+
+			remainingTickets = remainingTickets - userTickets
+			bookings = append(bookings, firstName+" "+lastName)
+		} else {
+			fmt.Printf("We only have %v tickets remaining", remainingTickets)
 		}
-		fmt.Printf("The first names of bookings are: %v\n", firstNames)
+		//implicit continue to next iteration
 	}
 
 }
